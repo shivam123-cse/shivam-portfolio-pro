@@ -1,0 +1,5 @@
+Put your talking-head video here as:
+  hero.mp4        (required)
+  hero-poster.jpg (optional first-frame still, recommended)
+
+See the project README.md for details.

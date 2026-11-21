@@ -1,0 +1,485 @@
+/* ============================================================
+   Layout scaffolding — sticky fullscreen stage
+   ============================================================ */
+
+.hero {
+  position: relative;
+  height: 100vh;
+}
+
+.stickyStage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-void);
+}
+
+.videoStage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ============================================================
+   Video layers
+   ============================================================ */
+
+.bgVideo {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  object-fit: cover;
+  filter: blur(38px) saturate(1.15) brightness(0.55);
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+.fgVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vignetteBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 5, 4, 0.95) 0%,
+    rgba(6, 5, 4, 0.55) 22%,
+    rgba(6, 5, 4, 0.05) 48%,
+    transparent 65%
+  );
+  z-index: 1;
+}
+
+.vignetteTop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 5, 4, 0.75) 0%,
+    transparent 30%
+  );
+  z-index: 1;
+}
+
+.colorWash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      ellipse at 20% 100%,
+      rgba(255, 138, 61, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(ellipse at 85% 15%, rgba(77, 127, 174, 0.18) 0%, transparent 50%);
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+/* ============================================================
+   Three.js particle layer
+   ============================================================ */
+
+.particleLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.particleLayer canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ============================================================
+   Signature element — viewfinder corner brackets + REC timecode
+   ============================================================ */
+
+.frameCorner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.frameCorner::before,
+.frameCorner::after {
+  content: '';
+  position: absolute;
+  background: rgba(244, 239, 230, 0.55);
+}
+
+.frameCorner::before {
+  width: 100%;
+  height: 1.5px;
+}
+
+.frameCorner::after {
+  width: 1.5px;
+  height: 100%;
+}
+
+.cornerTL {
+  top: clamp(16px, 3vw, 32px);
+  left: clamp(16px, 3vw, 32px);
+}
+.cornerTL::before,
+.cornerTL::after {
+  top: 0;
+  left: 0;
+}
+
+.cornerTR {
+  top: clamp(16px, 3vw, 32px);
+  right: clamp(16px, 3vw, 32px);
+}
+.cornerTR::before {
+  top: 0;
+  right: 0;
+}
+.cornerTR::after {
+  top: 0;
+  right: 0;
+}
+
+.cornerBL {
+  bottom: clamp(16px, 3vw, 32px);
+  left: clamp(16px, 3vw, 32px);
+}
+.cornerBL::before {
+  bottom: 0;
+  left: 0;
+}
+.cornerBL::after {
+  bottom: 0;
+  left: 0;
+}
+
+.cornerBR {
+  bottom: clamp(16px, 3vw, 32px);
+  right: clamp(16px, 3vw, 32px);
+}
+.cornerBR::before {
+  bottom: 0;
+  right: 0;
+}
+.cornerBR::after {
+  bottom: 0;
+  right: 0;
+}
+
+.recBadge {
+  position: absolute;
+  top: clamp(16px, 3vw, 32px);
+  right: calc(clamp(16px, 3vw, 32px) + 40px);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--color-cream);
+  background: rgba(10, 9, 8, 0.35);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+}
+
+.recDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-muted);
+}
+
+.recDotLive {
+  background: #ff5347;
+  animation: recPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes recPulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 83, 71, 0.5);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 4px rgba(255, 83, 71, 0);
+  }
+}
+
+.timecode {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Tap for sound badge
+   ============================================================ */
+
+.soundHint {
+  position: absolute;
+  top: clamp(16px, 3vw, 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-cream);
+  background: rgba(20, 17, 13, 0.45);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(244, 239, 230, 0.16);
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  animation: hintFloat 2.4s ease-in-out infinite;
+  transition: opacity 0.3s var(--ease-cinematic);
+}
+
+.soundHint:hover {
+  border-color: rgba(255, 138, 61, 0.5);
+}
+
+.soundHintPulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-ember);
+  box-shadow: 0 0 0 0 rgba(255, 138, 61, 0.6);
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 138, 61, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 138, 61, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 138, 61, 0);
+  }
+}
+
+@keyframes hintFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+/* ============================================================
+   Content overlay — tagline / name / role
+   ============================================================ */
+
+.content {
+  position: absolute;
+  left: clamp(20px, 6vw, 72px);
+  bottom: clamp(90px, 14vh, 160px);
+  z-index: 4;
+  max-width: 90%;
+  perspective: 800px;
+}
+
+.tagline {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ember-soft);
+  margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(3.2rem, 10vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+  mix-blend-mode: difference;
+}
+
+.nameLine {
+  display: block;
+  transform-origin: left center;
+}
+
+.nameLine:first-child {
+  color: var(--color-cream);
+}
+
+.nameLine:last-child {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-cream);
+}
+
+.role {
+  margin-top: clamp(1rem, 2.5vw, 1.75rem);
+  max-width: 42ch;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   Playback controls — glassmorphism
+   ============================================================ */
+
+.controls {
+  position: absolute;
+  right: clamp(16px, 4vw, 40px);
+  bottom: clamp(90px, 14vh, 160px);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.glassButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cream);
+  background: rgba(244, 239, 230, 0.08);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid rgba(244, 239, 230, 0.18);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-cinematic), background 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.glassButton:hover {
+  background: rgba(255, 138, 61, 0.16);
+  border-color: rgba(255, 138, 61, 0.45);
+  transform: translateY(-2px);
+}
+
+.glassButton:active {
+  transform: translateY(0) scale(0.94);
+}
+
+/* ============================================================
+   Scroll indicator
+   ============================================================ */
+
+.scrollIndicator {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.scrollLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.scrollTrack {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: rgba(244, 239, 230, 0.18);
+  overflow: hidden;
+}
+
+.scrollPulse {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-ember-soft) 50%,
+    transparent
+  );
+  animation: scrollDrop 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollDrop {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.scrollIndicator:hover .scrollLabel {
+  color: var(--color-ember-soft);
+}
+
+/* ============================================================
+   Responsive adjustments
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .content {
+    bottom: clamp(150px, 20vh, 200px);
+  }
+
+  .controls {
+    flex-direction: row;
+    bottom: clamp(24px, 6vh, 60px);
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .recBadge {
+    right: clamp(16px, 4vw, 24px);
+  }
+
+  .frameCorner {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .name {
+    font-size: clamp(2.6rem, 14vw, 4rem);
+  }
+}
