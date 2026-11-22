@@ -1,7 +1,8 @@
 .heroContainer {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   background-color: #05070b;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
@@ -18,6 +19,12 @@
   pointer-events: none;
   z-index: 9999;
   transition: width 0.2s, height 0.2s;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .customCursor {
+    display: none;
+  }
 }
 
 .ambientWrapper {
@@ -58,15 +65,16 @@
 .contentGrid {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 4rem;
+  padding: 6rem 4rem 4rem;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
   gap: 4rem;
   z-index: 3;
+  box-sizing: border-box;
 }
 
 .videoWindowFrame {
@@ -100,9 +108,9 @@
 }
 
 .giantTitle {
-  font-size: 5.5rem;
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
   font-weight: 900;
-  line-height: 0.95;
+  line-height: 0.98;
   margin-bottom: 2rem;
   color: #F4F1EA;
 }
@@ -114,9 +122,48 @@
 
 .subtitle {
   font-size: 1.05rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: #A8BDD0;
   max-width: 480px;
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 12px 0;
+  color: #F4F1EA;
+}
+
+/* मोबाइल-फ्रेंडली नेविगेशन */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(7, 11, 14, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 0;
+}
+
+.navInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 /* प्रीमियम बटन्स */
@@ -125,9 +172,10 @@
   color: #090D12;
   border: none;
   border-radius: 12px;
-  padding: 14px 28px;
+  padding: 14px 24px;
   font-weight: 700;
   cursor: pointer;
+  min-height: 44px;
   transition: all 0.3s ease;
 }
 
@@ -141,9 +189,14 @@
   border: 1px solid rgba(244, 241, 234, 0.16);
   color: #F4F1EA;
   border-radius: 12px;
-  padding: 14px 28px;
+  padding: 12px 22px;
   font-weight: 700;
   cursor: pointer;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
@@ -157,11 +210,13 @@
   background: rgba(24, 34, 45, 0.55);
   border: 1px solid rgba(244, 241, 234, 0.09);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 24px;
-  padding: 32px;
+  padding: 28px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
   color: #F4F1EA;
+  box-sizing: border-box;
 }
 
 .glassCard:hover {
@@ -181,7 +236,7 @@
 /* कंट्रोल्स और विजेट्स */
 .controlsContainer {
   position: absolute;
-  top: 3rem;
+  top: 5rem;
   right: 4rem;
   display: flex;
   align-items: center;
@@ -193,6 +248,7 @@
   display: flex;
   background: rgba(244, 241, 234, 0.03);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(244, 241, 234, 0.09);
   border-radius: 30px;
   padding: 0.35rem;
@@ -202,8 +258,8 @@
   background: transparent;
   border: none;
   color: rgba(244, 241, 234, 0.75);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -214,10 +270,11 @@
   gap: 0.6rem;
   background: rgba(255, 184, 52, 0.1);
   border: 1px solid rgba(255, 184, 52, 0.25);
-  padding: 0.5rem 1.1rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 20px;
   cursor: pointer;
   color: #F4F1EA;
+  min-height: 40px;
 }
 
 .pulseDot {
@@ -230,8 +287,8 @@
 /* चैटबॉट कंटेनर */
 .chatbotContainer {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 24px;
+  right: 24px;
   z-index: 2000;
   display: flex;
   flex-direction: column;
@@ -239,27 +296,27 @@
 }
 
 .chatbotToggle {
-  width: 60px;
-  height: 60px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   background: #FFB834;
   color: #090D12;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   border: none;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(255, 184, 52, 0.4);
 }
 
 .chatbotWindow {
-  width: 350px;
-  height: 450px;
+  width: min(350px, calc(100vw - 32px));
+  height: min(450px, 70dvh);
   background: #10171E;
   border: 1px solid #FFB834;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
   color: #F4F1EA;
 }
 
@@ -269,12 +326,13 @@
   border-bottom: 1px solid rgba(244, 241, 234, 0.09);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 /* स्क्रॉल बार */
 .scrollIndicator {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -292,26 +350,86 @@
 
 .pulseLine {
   width: 1px;
-  height: 50px;
+  height: 44px;
   background: linear-gradient(to bottom, #FFB834, transparent);
 }
 
-/* रिस्पॉन्सिव */
+/* टैबलेट और मोबाइल रिस्पॉन्सिव */
 @media (max-width: 1024px) {
   .contentGrid {
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 0 2rem;
+    padding: 7rem 2rem 5rem;
+    gap: 2.5rem;
+  }
+  .subtitle {
+    margin: 0 auto;
   }
   .videoWindowFrame {
     max-width: 550px;
-    margin: 4rem auto 0 auto;
+    margin: 0 auto;
   }
   .giantTitle {
-    font-size: 3.8rem;
+    font-size: clamp(2.5rem, 8vw, 3.8rem);
+    margin-bottom: 1.25rem;
+  }
+  .tagline {
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
   }
   .controlsContainer {
-    right: 2rem;
-    top: 2rem;
+    right: 1.5rem;
+    top: 4.75rem;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .navInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .navLinks {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .navLinks a {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .contentGrid {
+    padding: 7.5rem 1.25rem 5rem;
+  }
+  .controlsContainer {
+    top: auto;
+    bottom: 5.5rem;
+    right: 50%;
+    transform: translateX(50%);
+    flex-wrap: wrap;
+    justify-content: center;
+    width: max-content;
+    max-width: calc(100vw - 24px);
+  }
+  .glassCard {
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .chatbotContainer {
+    bottom: 16px;
+    right: 16px;
+  }
+  .chatbotToggle {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+  }
+  .scrollIndicator {
+    display: none;
   }
 }
