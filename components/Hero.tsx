@@ -22,7 +22,6 @@ export default function Hero({
 }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasEndedRef = useRef(false);
-  const [muted, setMuted] = useState(false);
   const [paused, setPaused] = useState(true);
   const [timecode, setTimecode] = useState("00:00:00");
 
@@ -60,7 +59,6 @@ export default function Hero({
             () => setPaused(false),
             () => {
               video.muted = true;
-              setMuted(true);
               video.play().then(
                 () => setPaused(false),
                 () => setPaused(true)
@@ -101,13 +99,6 @@ export default function Hero({
       video.pause();
       setPaused(true);
     }
-  };
-
-  const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setMuted(video.muted);
   };
 
   const enterFullscreen = () => {
@@ -156,11 +147,6 @@ export default function Hero({
           <span className={styles.timecode}>{timecode}</span>
         </div>
 
-        <button className={styles.soundHint} type="button" onClick={toggleMute}>
-          <span className={styles.soundHintPulse} />
-          {muted ? "Tap for sound" : "Sound on"}
-        </button>
-
         <div className={styles.content}>
           <p className={styles.tagline}>{tagline}</p>
           <h1 className={styles.name}>
@@ -179,17 +165,9 @@ export default function Hero({
             className={styles.glassButton}
             type="button"
             onClick={togglePlayback}
-            aria-label={paused ? "Play video" : "Pause video"}
+            aria-label={paused ? "Play video" : "Stop video"}
           >
-            {paused ? "▶" : "Ⅱ"}
-          </button>
-          <button
-            className={styles.glassButton}
-            type="button"
-            onClick={toggleMute}
-            aria-label={muted ? "Unmute video" : "Mute video"}
-          >
-            {muted ? "🔇" : "🔊"}
+            {paused ? "▶" : "⏹"}
           </button>
           <button
             className={styles.glassButton}
